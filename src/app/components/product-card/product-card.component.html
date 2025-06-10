@@ -1,0 +1,26 @@
+    <div class="product-card">
+      <div class="product-image">
+        <img [src]="product.imageUrl" [alt]="product.name" />
+        <div class="stock-badge" [class.low-stock]="product.stock <= 5">
+          {{ product.stock }} disponibles
+        </div>
+      </div>
+      
+      <div class="product-info">
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="product-description">{{ product.description }}</p>
+        <div class="product-category">{{ product.category }}</div>
+        
+        <div class="product-footer">
+          <div class="product-price">₪{{ product.price }}</div>
+          <button 
+            class="add-to-cart-btn"
+            [disabled]="product.stock === 0"
+            (click)="addToCart()"
+          >
+            <span class="btn-icon">🛒</span>
+            {{ product.stock === 0 ? 'Sin stock' : 'Agregar' }}
+          </button>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,26 @@
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <a routerLink="/" class="logo-link">
+            <span class="logo-icon">🌮</span>
+            <span class="logo-text">Sabores Latinos</span>
+          </a>
+        </div>
+        
+        <nav class="nav">
+          <a routerLink="/products" routerLinkActive="active" class="nav-link">
+            Productos
+          </a>
+          <a routerLink="/admin" routerLinkActive="active" class="nav-link admin-link">
+            Admin
+          </a>
+        </nav>
+        
+        <div class="header-actions">
+          <a routerLink="/cart" class="cart-btn">
+            <span class="cart-icon">🛒</span>
+            <span class="cart-count" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+          </a>
+        </div>
+      </div>
+    </header>
