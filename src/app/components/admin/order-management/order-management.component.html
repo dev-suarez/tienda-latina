@@ -1,0 +1,77 @@
+    <div class="order-management">
+      <div class="management-header">
+        <h2>Gestión de Órdenes</h2>
+        <div class="order-stats">
+          <div class="stat">
+            <span class="stat-label">Pendientes:</span>
+            <span class="stat-value pending">{{ getPendingCount() }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Total:</span>
+            <span class="stat-value">{{ orders.length }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="orders-list">
+        <div class="order-card" *ngFor="let order of orders">
+          <div class="order-header">
+            <div class="order-id">
+              <strong>Pedido #{{ order.id }}</strong>
+              <span class="order-date">{{ formatDate(order.createdAt) }}</span>
+            </div>
+            <div class="order-status">
+              <span class="status-badge" [ngClass]="order.status">
+                {{ getStatusText(order.status) }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="order-details">
+            <div class="customer-info">
+              <h4>Información del Cliente</h4>
+              <p><strong>Nombre:</strong> {{ order.customerName }}</p>
+              <p><strong>Teléfono:</strong> {{ order.customerPhone }}</p>
+              <p><strong>Email:</strong> {{ order.customerEmail }}</p>
+              <p><strong>Método de Pago:</strong> {{ order.paymentMethod === 'bit' ? 'Bit' : 'Transferencia Bancaria' }}</p>
+              <p *ngIf="order.paymentMethod === 'bit' && order.bitPhoneNumber">
+                <strong>Teléfono Bit:</strong> {{ order.bitPhoneNumber }}
+              </p>
+            </div>
+            
+            <div class="order-items">
+              <h4>Productos Ordenados</h4>
+              <div class="item" *ngFor="let item of order.items">
+                <div class="item-info">
+                  <img [src]="item.product.imageUrl" [alt]="item.product.name" />
+                  <div>
+                    <strong>{{ item.product.name }}</strong>
+                    <p>Cantidad: {{ item.quantity }}</p>
+                  </div>
+                </div>
+                <div class="item-price">₪{{ item.product.price * item.quantity }}</div>
+              </div>
+              
+              <div class="order-total">
+                <strong>Total: ₪{{ order.total }}</strong>
+              </div>
+            </div>
+          </div>
+          
+          <div class="order-actions" *ngIf="order.status === 'pending'">
+            <button class="btn-success" (click)="approveOrder(order.id)">
+              ✅ Aprobar
+            </button>
+            <button class="btn-danger" (click)="rejectOrder(order.id)">
+              ❌ Rechazar
+            </button>
+          </div>
+        </div>
+        
+        <div class="empty-state" *ngIf="orders.length === 0">
+          <div class="empty-icon">📋</div>
+          <h3>No hay órdenes</h3>
+          <p>Las órdenes aparecerán aquí cuando los clientes realicen compras</p>
+        </div>
+      </div>
+    </div>

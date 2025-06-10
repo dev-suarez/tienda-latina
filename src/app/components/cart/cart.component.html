@@ -1,0 +1,68 @@
+    <div class="cart-container">
+      <div class="cart-header">
+        <h2>Tu Carrito</h2>
+        <div class="cart-count">{{ getCartItemCount() }} productos</div>
+      </div>
+      
+      <div class="cart-content" *ngIf="cartItems$ | async as items">
+        <div class="cart-items" *ngIf="items.length > 0">
+          <div class="cart-item" *ngFor="let item of items">
+            <div class="item-image">
+              <img [src]="item.product.imageUrl" [alt]="item.product.name" />
+            </div>
+            
+            <div class="item-info">
+              <h3>{{ item.product.name }}</h3>
+              <p class="item-price">₪{{ item.product.price }}</p>
+              
+              <div class="quantity-controls">
+                <button 
+                  class="quantity-btn"
+                  (click)="decreaseQuantity(item.product.id)"
+                >-</button>
+                <span class="quantity">{{ item.quantity }}</span>
+                <button 
+                  class="quantity-btn"
+                  (click)="increaseQuantity(item.product.id)"
+                >+</button>
+              </div>
+            </div>
+            
+            <div class="item-total">
+              <div class="total-price">₪{{ item.product.price * item.quantity }}</div>
+              <button 
+                class="remove-btn"
+                (click)="removeItem(item.product.id)"
+              >🗑️</button>
+            </div>
+          </div>
+          
+          <div class="cart-summary">
+            <div class="summary-row">
+              <span>Subtotal:</span>
+              <span class="amount">₪{{ getCartTotal() }}</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total:</span>
+              <span class="amount">₪{{ getCartTotal() }}</span>
+            </div>
+            
+            <button 
+              class="checkout-btn"
+              routerLink="/checkout"
+            >
+              Proceder al Pago
+            </button>
+          </div>
+        </div>
+        
+        <div class="empty-cart" *ngIf="items.length === 0">
+          <div class="empty-icon">🛒</div>
+          <h3>Tu carrito está vacío</h3>
+          <p>Agrega algunos productos para continuar</p>
+          <button class="continue-shopping" routerLink="/products">
+            Continuar Comprando
+          </button>
+        </div>
+      </div>
+    </div>

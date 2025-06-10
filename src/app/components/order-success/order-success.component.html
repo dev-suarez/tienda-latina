@@ -1,0 +1,78 @@
+    <div class="success-container">
+      <div class="success-content">
+        <div class="success-icon">✅</div>
+        <h1>¡Pedido Realizado Exitosamente!</h1>
+        <p class="success-message">Tu pedido ha sido recibido y está siendo procesado.</p>
+        
+        <div class="order-details" *ngIf="order">
+          <h3>Detalles del Pedido</h3>
+          <div class="order-info">
+            <div class="info-row">
+              <span class="label">Número de Pedido:</span>
+              <span class="value">#{{ order.id }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Cliente:</span>
+              <span class="value">{{ order.customerName }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Total:</span>
+              <span class="value total">₪{{ order.total }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Método de Pago:</span>
+              <span class="value">{{ order.paymentMethod === 'bit' ? 'Bit' : 'Transferencia Bancaria' }}</span>
+            </div>
+            <div class="info-row" *ngIf="order.paymentMethod === 'bit' && order.bitPhoneNumber">
+              <span class="label">Teléfono Bit:</span>
+              <span class="value">{{ order.bitPhoneNumber }}</span>
+            </div>
+          </div>
+          
+          <div class="order-items">
+            <h4>Productos Ordenados:</h4>
+            <div class="item" *ngFor="let item of order.items">
+              <span>{{ item.product.name }} x{{ item.quantity }}</span>
+              <span>₪{{ item.product.price * item.quantity }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="payment-instructions" *ngIf="order">
+          <h3>Instrucciones de Pago</h3>
+          <div class="instructions" *ngIf="order.paymentMethod === 'transfer'">
+            <p><strong>Transferencia Bancaria:</strong></p>
+            <p>Por favor realiza la transferencia a los siguientes datos bancarios:</p>
+            <div class="bank-details">
+              <p><strong>Banco:</strong> Bank Hapoalim</p>
+              <p><strong>Número de cuenta:</strong> 12-345-678901</p>
+              <p><strong>Nombre:</strong> Tienda Electrónicos</p>
+              <p><strong>Referencia:</strong> Pedido #{{ order.id }}</p>
+            </div>
+          </div>
+          
+          <div class="instructions" *ngIf="order.paymentMethod === 'bit'">
+            <p><strong>Pago con Bit:</strong></p>
+            <p>Envía el pago de ₪{{ order.total }} al número:</p>
+            <div class="bit-details">
+              <p class="phone-number">{{ order.bitPhoneNumber }}</p>
+              <p><strong>Referencia:</strong> Pedido #{{ order.id }}</p>
+            </div>
+          </div>
+          
+          <div class="contact-info">
+            <p>Una vez realizado el pago, nos pondremos en contacto contigo para confirmar y coordinar la entrega.</p>
+            <p><strong>Teléfono de contacto:</strong> 050-123-4567</p>
+          </div>
+        </div>
+        
+        <div class="actions">
+          <button class="btn-primary" routerLink="/products">
+            Continuar Comprando
+          </button>
+          <button class="btn-secondary" (click)="goHome()">
+            Volver al Inicio
+          </button>
+        </div>
+      </div>
+    </div>
